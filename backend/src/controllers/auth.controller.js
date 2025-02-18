@@ -63,12 +63,18 @@ export const login = async (req, res) => {
             profilePic: user.profilePic,
         });
 
-    } catch {
+    } catch (error) {
         console.log("Error in login controller");
         res.status(500).json({ message:"Internal Service Error", error: error.message});
     }
 };
 
 export const logout = (req, res) => {
-    res.send("logout route")
+    try {
+        res.cookie("jwt", "", {maxAge:0});
+        res.status(200).json({ message:"Logout successful"});
+    } catch (error) {
+        console.log("Error in logout controller");
+        res.status(500).json({ message: "Internal Service Error", error: error.message})
+    }
 };
